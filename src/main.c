@@ -375,35 +375,36 @@ void renderRays() {
 
 void processInput() {
     SDL_Event event;
-    SDL_PollEvent(&event);
-    switch (event.type) {
-        case SDL_QUIT: {
-            isGameRunning = false;
-            break;
-        }
-        case SDL_KEYDOWN: {
-            if (event.key.keysym.sym == SDLK_ESCAPE)
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT: {
                 isGameRunning = false;
-            if (event.key.keysym.sym == SDLK_w)
-                player.walkDirection = +1;
-            if (event.key.keysym.sym == SDLK_s)
-                player.walkDirection = -1;
-            if (event.key.keysym.sym == SDLK_d)
-                player.turnDirection = +1;
-            if (event.key.keysym.sym == SDLK_a)
-                player.turnDirection = -1;
-            break;
-        }
-        case SDL_KEYUP: {
-            if (event.key.keysym.sym == SDLK_w)
-                player.walkDirection = 0;
-            if (event.key.keysym.sym == SDLK_s)
-                player.walkDirection = 0;
-            if (event.key.keysym.sym == SDLK_d)
-                player.turnDirection = 0;
-            if (event.key.keysym.sym == SDLK_a)
-                player.turnDirection = 0;
-            break;
+                break;
+            }
+            case SDL_KEYDOWN: {
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                    isGameRunning = false;
+                if (event.key.keysym.sym == SDLK_w)
+                    player.walkDirection = +1;
+                if (event.key.keysym.sym == SDLK_s)
+                    player.walkDirection = -1;
+                if (event.key.keysym.sym == SDLK_d)
+                    player.turnDirection = +1;
+                if (event.key.keysym.sym == SDLK_a)
+                    player.turnDirection = -1;
+                break;
+            }
+            case SDL_KEYUP: {
+                if (event.key.keysym.sym == SDLK_w)
+                    player.walkDirection = 0;
+                if (event.key.keysym.sym == SDLK_s)
+                    player.walkDirection = 0;
+                if (event.key.keysym.sym == SDLK_d)
+                    player.turnDirection = 0;
+                if (event.key.keysym.sym == SDLK_a)
+                    player.turnDirection = 0;
+                break;
+            }
         }
     }
 }
