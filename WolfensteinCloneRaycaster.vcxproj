@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\constants.h" />
-    <ClInclude Include="src\textures.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="textures.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.c" />
+    <ClCompile Include="graphics.c" />
+    <ClCompile Include="main.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
