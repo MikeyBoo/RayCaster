@@ -7,11 +7,10 @@
 #define TWO_PI 6.28318530
 
 #define TILE_SIZE 64
-#define MAP_NUM_ROWS 13
-#define MAP_NUM_COLS 20
+
 #define NUM_TEXTURES 8
 
-#define MINIMAP_SCALE_FACTOR 0.3
+#define MINIMAP_SCALE_FACTOR 0.05
 
 #define WINDOW_WIDTH 320 //16 by 10
 #define WINDOW_HEIGHT 240

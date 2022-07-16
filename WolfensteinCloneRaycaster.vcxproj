@@ -21,11 +21,17 @@
   <ItemGroup>
     <ClInclude Include="constants.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="ray.h" />
     <ClInclude Include="textures.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graphics.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="map.c" />
+    <ClCompile Include="player.c" />
+    <ClCompile Include="ray.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
