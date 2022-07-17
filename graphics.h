@@ -1,8 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-// header files contain constants, new types, and function prototypes
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>

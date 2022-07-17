@@ -1,3 +1,7 @@
+/* TODO: fix map / correct colorBuffer write access error 
+seperate texture logic to textures.h / textures.c 
+seperate wallPorjection logic to a wall.h / wall.c */
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -11,41 +15,13 @@
 #include "ray.h"
 #include "textures.h"
 
-//struct Ray {
-//    float rayAngle;
-//    float wallHitX;
-//    float wallHitY;
-//    float distance;
-//    bool wasHitVertical;
-//    /*bool isRayFacingUp;
-//    bool isRayFacingDown;
-//    bool isRayFacingLeft;
-//    bool isRayFacingRight;*/
-//    int wallHitContent;
-//} rays[NUM_RAYS];
-
-
-// global variables
 bool isGameRunning = false;
 int ticksLastFrame;
 
-//uint32_t* wallTexture = NULL; //procederal wall testure for testing
-uint32_t* textures[NUM_TEXTURES];
-
-
+uint32_t* textures[NUM_TEXTURES]; // should be defined in a textures.h
 
 void setup() {
-
-
-    // procederal grid textures for testing
-    //wallTexture = (uint32_t*)malloc(sizeof(uint32_t) * (uint32_t)TEXTURE_WIDTH * (uint32_t)TEXTURE_HEIGHT);
-    //for (int x = 0; x < TEXTURE_WIDTH; x++) {
-    //    for (int y = 0; y < TEXTURE_HEIGHT; y++) {
-    //        wallTexture[(TEXTURE_WIDTH * y) + x] = (x % 8 && y % 8) ? 0xff0000ff : 0xFF000000; // makes grid
-    //    }
-    //}
-
-    //TODO: load PNG
+    // the following should be a loadWallTextures getter function from a textures.c
     textures[0] = (uint32_t*)REDBRICK_TEXTURE;
     textures[1] = (uint32_t*)PURPLESTONE_TEXTURE;
     textures[2] = (uint32_t*)MOSSYSTONE_TEXTURE;
@@ -84,16 +60,6 @@ void processInput() {
                     player.turnDirection = +1;
                     break;
                 }
-                //if (event.key.keysym.sym == SDLK_ESCAPE)
-                //    isGameRunning = false;
-                //if (event.key.keysym.sym == SDLK_w)
-                //    player.walkDirection = +1;
-                //if (event.key.keysym.sym == SDLK_s)
-                //    player.walkDirection = -1;
-                //if (event.key.keysym.sym == SDLK_d)
-                //    player.turnDirection = +1;
-                //if (event.key.keysym.sym == SDLK_a)
-                //    player.turnDirection = -1;
                 break;
             case SDL_KEYUP:
                 switch (event.key.keysym.scancode) {
@@ -120,8 +86,7 @@ void processInput() {
 }
 
 void update() {
-    // waste some time until we reach the target frame time length
-    //while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksLastFrame + FRAME_TIME_LENGTH)); // old method - slow?
+
     int timeToWait = FRAME_TIME_LENGTH - (SDL_GetTicks() - ticksLastFrame);
     if (timeToWait > 0 && timeToWait <= FRAME_TIME_LENGTH) {
         SDL_Delay(timeToWait);
@@ -134,6 +99,7 @@ void update() {
     castAllRays();
 }
 
+// should be moved to a wall.c - wall.h but textures.c should be developed first
 void renderWallProjection(void) {
     for (int x = 0; x < NUM_RAYS; x++) {
         float perpDistance = rays[x].distance * cos(rays[x].rayAngle - player.rotationAngle);
@@ -142,16 +108,13 @@ void renderWallProjection(void) {
         int wallStripHeight = (int)projectedWallHeight;
 
         int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
-        wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel; // clamped wall height to top of screen distorting texture - see line 431
-
+        wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel; 
 
         int wallBottomPixel = (WINDOW_HEIGHT / 2) + (wallStripHeight / 2);
         wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
 
-        // set the color of the ceiling
         for (int y = 0; y < wallTopPixel; y++) {
             drawPixel(x, y, 0xFF333333);
-            // colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF333333;
         }
         int textureOffsetX;
 
@@ -167,9 +130,7 @@ void renderWallProjection(void) {
             textureOffsetX = (int)rays[x].wallHitX % TILE_SIZE;
         }
 
-        /// <summary>
-        /// get texture
-        /// </summary>
+        // get texture
         int texNum = rays[x].wallHitContent - 1;
 
         /////////finding horizontal element of wall strip////////// horizontal down surface
@@ -179,43 +140,32 @@ void renderWallProjection(void) {
             // to correct  texture distortion due to line 404
             int distanceFromTop = y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2);
 
-            //TODO: calculate textureOffsetY
+            // calculate textureOffsetY
             int textureOffsetY = distanceFromTop * ((float)TEXTURE_HEIGHT / wallStripHeight);
 
             // set color of wall based on texture
             uint32_t texelColor = textures[texNum][(TEXTURE_WIDTH * textureOffsetY) + textureOffsetX];
-            //colorBuffer[(WINDOW_WIDTH * y) + x] = texelColor;
             drawPixel(x, y, texelColor);
-            //colorBuffer[(WINDOW_WIDTH * y) + x] = rays[x].wasHitVertical ? 0xFFFFFFFF : 0xFFCCCCCC;
         }
 
         // set the color of the floor
         for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++) {
             drawPixel(x, y, 0xFF777777);
-            //colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF777777;
         }
             
     }
 }
 
 void render() {
-    //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    //SDL_RenderClear(renderer);
     clearColorBuffer(0xFF000000);
-
-    //generate3DProjection();
 
     renderWallProjection();
 
-    //drawRect(10, 10, 42, 34, 0xffffffff);
-
-    renderMap(); // cause colorBuffer write access violation??? traced to mini-map - still issue there
+    renderMap(); 
     renderRays();
     renderPlayer();
 
     renderColorBuffer();
-
-    //SDL_RenderPresent(renderer);
 }
 
 void releaseResources(void) {
@@ -233,8 +183,7 @@ int main() {
         render();
     }
 
-    //destroyWindow(); /not sure this needs changed
-    releaseResources(); // not sure this was needed - just following tutorial
+    releaseResources(); 
 
     return 0;
 }

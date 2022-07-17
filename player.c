@@ -1,5 +1,6 @@
 #include "player.h"
 
+// should be static and provide a getter function
 player_t player = {
     .x = WINDOW_WIDTH / 2,
     .y = WINDOW_HEIGHT / 2,

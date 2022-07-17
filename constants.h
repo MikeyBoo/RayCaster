@@ -8,11 +8,11 @@
 
 #define TILE_SIZE 64
 
-#define NUM_TEXTURES 8
+#define NUM_TEXTURES 8  // should be moved to a textures.h
 
 #define MINIMAP_SCALE_FACTOR 0.05
 
-#define WINDOW_WIDTH 320 //16 by 10
+#define WINDOW_WIDTH 320 
 #define WINDOW_HEIGHT 240
 
 #define TEXTURE_WIDTH 64
@@ -20,7 +20,7 @@
 
 #define FOV_ANGLE (60 * (PI / 180))
 
-#define NUM_RAYS WINDOW_WIDTH //pixelated?
+#define NUM_RAYS WINDOW_WIDTH
 
 #define DIST_PROJ_PLANE ((WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2))
 

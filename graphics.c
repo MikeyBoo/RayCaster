@@ -79,8 +79,6 @@ void renderColorBuffer(void) {
 }
 
 void drawPixel(int x, int y, uint32_t color) {
-    // printf("in pixel %d : %d\n", x , y);
-    // printf("WINDOW %d\n", WINDOW_WIDTH);
     colorBuffer[(WINDOW_WIDTH * y) + x]= color;
 }
 

@@ -142,21 +142,9 @@ void castRay(float rayAngle, int stripId) {
         rays[stripId].wasHitVertical = false;
         rays[stripId].rayAngle = rayAngle;
     }
-    //rays[stripId].rayAngle = rayAngle;
-    //rays[stripId].isRayFacingDown = isRayFacingDown;
-    //rays[stripId].isRayFacingUp = isRayFacingUp;
-    //rays[stripId].isRayFacingLeft = isRayFacingLeft;
-    //rays[stripId].isRayFacingRight = isRayFacingRight;
 }
 
 void castAllRays() {
-    //float rayAngle = player.rotationAngle - (FOV_ANGLE / 2);
-
-    //for (int stripId = 0; stripId < NUM_RAYS; stripId++) {
-    //    castRay(rayAngle, stripId);
-    //    rayAngle += FOV_ANGLE / NUM_RAYS;
-    //} previous implementation
-
     for (int col = 0; col < NUM_RAYS; col++) {
         float rayAngle = player.rotationAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
         castRay(rayAngle, col);
