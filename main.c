@@ -209,8 +209,8 @@ void render() {
 
     //drawRect(10, 10, 42, 34, 0xffffffff);
 
-    renderMap(); // cause colorBuffer write access violation???
-    //renderRays();
+    renderMap(); // cause colorBuffer write access violation??? traced to mini-map - still issue there
+    renderRays();
     renderPlayer();
 
     renderColorBuffer();
