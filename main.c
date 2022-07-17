@@ -1,15 +1,13 @@
-/* TODO: fix map / correct colorBuffer write access error 
+/* TODO(in order): fix map / correct colorBuffer write access error 
 seperate texture logic to textures.h / textures.c 
 seperate wallPorjection logic to a wall.h / wall.c */
 
 #include <stdio.h>
 #include <stdint.h>
-#include <stdbool.h>
-#include <limits.h>
+#include <stdbool.h> 
 #include <SDL.h>
 #include "constants.h"
 #include "graphics.h"
-#include <cfloat>
 #include "map.h"
 #include "player.h"
 #include "ray.h"
